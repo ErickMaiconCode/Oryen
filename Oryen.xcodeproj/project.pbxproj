@@ -7,13 +7,53 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		EC5D3F2C2EF0700C00E49512 /* Oryen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Oryen.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC5589C02EF0ABF7006C2755 /* Oryen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Oryen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		EC5D3F2E2EF0700C00E49512 /* Oryen */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = Oryen;
+			sourceTree = "<group>";
+		};
+		EC5D3F3A2EF0701C00E49512 /* Resources */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		EC5D3F3C2EF0702C00E49512 /* App */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = App;
+			sourceTree = "<group>";
+		};
+		EC5D3F3D2EF0703300E49512 /* Services */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Services;
+			sourceTree = "<group>";
+		};
+		EC5D3F3F2EF070F900E49512 /* Views */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Views;
+			sourceTree = "<group>";
+		};
+		EC5D3F402EF0712000E49512 /* ViewModals */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ViewModals;
+			sourceTree = "<group>";
+		};
+		EC5D3F422EF0713400E49512 /* Modal */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Modal;
+			sourceTree = "<group>";
+		};
+		EC5D3F432EF0714100E49512 /* Tests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		EC5D3F442EF0714B00E49512 /* Utils */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -32,17 +72,17 @@
 		EC5D3F232EF0700C00E49512 = {
 			isa = PBXGroup;
 			children = (
+				EC5D3F442EF0714B00E49512 /* Utils */,
+				EC5D3F3D2EF0703300E49512 /* Services */,
+				EC5D3F3C2EF0702C00E49512 /* App */,
+				EC5D3F3A2EF0701C00E49512 /* Resources */,
 				EC5D3F2E2EF0700C00E49512 /* Oryen */,
-				EC5D3F2D2EF0700C00E49512 /* Products */,
+				EC5D3F3F2EF070F900E49512 /* Views */,
+				EC5D3F402EF0712000E49512 /* ViewModals */,
+				EC5D3F422EF0713400E49512 /* Modal */,
+				EC5D3F432EF0714100E49512 /* Tests */,
+				EC5589C02EF0ABF7006C2755 /* Oryen.app */,
 			);
-			sourceTree = "<group>";
-		};
-		EC5D3F2D2EF0700C00E49512 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				EC5D3F2C2EF0700C00E49512 /* Oryen.app */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -62,12 +102,20 @@
 			);
 			fileSystemSynchronizedGroups = (
 				EC5D3F2E2EF0700C00E49512 /* Oryen */,
+				EC5D3F3A2EF0701C00E49512 /* Resources */,
+				EC5D3F3C2EF0702C00E49512 /* App */,
+				EC5D3F3D2EF0703300E49512 /* Services */,
+				EC5D3F3F2EF070F900E49512 /* Views */,
+				EC5D3F402EF0712000E49512 /* ViewModals */,
+				EC5D3F422EF0713400E49512 /* Modal */,
+				EC5D3F432EF0714100E49512 /* Tests */,
+				EC5D3F442EF0714B00E49512 /* Utils */,
 			);
 			name = Oryen;
 			packageProductDependencies = (
 			);
 			productName = Oryen;
-			productReference = EC5D3F2C2EF0700C00E49512 /* Oryen.app */;
+			productReference = EC5589C02EF0ABF7006C2755 /* Oryen.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -95,7 +143,7 @@
 			mainGroup = EC5D3F232EF0700C00E49512;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = EC5D3F2D2EF0700C00E49512 /* Products */;
+			productRefGroup = EC5D3F232EF0700C00E49512;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
