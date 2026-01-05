@@ -4,95 +4,102 @@ import Lottie
 struct UserTypeSelectionView: View {
     @StateObject private var viewModel = UserTypeSelectionViewModel()
     @Environment(\.colorScheme) var colorScheme
-    var onComplete: () -> Void
+    
+    // Controle de Navegação para a próxima tela
+    @State private var navigateToInput = false
     
     var body: some View {
         ZStack {
-
-            (colorScheme == .dark ? Color("Cor Fundo") : Color(.white))
-                .ignoresSafeArea()
-
+            Color("Cor Fundo").ignoresSafeArea()
+            
             VStack(spacing: 0) {
-
-                Image("Logo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 50, height: 50)
-                    .padding(.top, 50)
-                    .padding(.bottom, 20)
-                
-
-                VStack(spacing: 8) {
-                    Text("Bem Vindo à")
-                        .font(.title.bold())
-                        .foregroundStyle(Color("Cor Descrição"))
+                // MARK: - Header Rico
+                VStack(spacing: 16) {
+                    Image("Logo") // Certifique-se que o asset existe no Assets.xcassets
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 60, height: 60)
+                        .shadow(color: Color("Cor Roxo").opacity(0.3), radius: 10, x: 0, y: 5)
                     
-                    Text("Oryen")
-                        .font(.largeTitle.bold())
-                        .foregroundStyle(
-                            LinearGradient(
-                                gradient: Gradient(colors: [
-                                    Color("Cor Roxo"),
-                                    Color("Cor Rosa"),
-                                    Color("Cor Azul")
-                                ]),
-                                startPoint: .bottomLeading,
-                                endPoint: .topTrailing
+                    VStack(spacing: 4) {
+                        Text("Bem-vindo ao")
+                            .font(.system(size: 24, weight: .bold))
+                            .foregroundColor(Color("Cor Branca"))
+                        
+                        // TEXTO ORYEN COM GRADIENTE
+                        Text("Oryen")
+                            .font(.system(size: 42, weight: .heavy))
+                            .overlay(
+                                LinearGradient(
+                                    colors: [Color("Cor Roxo"), Color("Cor Rosa"), Color("Cor Laranja")],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                                .mask(
+                                    Text("Oryen")
+                                        .font(.system(size: 42, weight: .heavy))
+                                )
                             )
-                        )
+                            // Oculta o texto base para mostrar só o gradiente
+                            .foregroundColor(.clear)
+                            
+                        Text("Escolha como deseja acessar")
+                            .font(.body)
+                            .foregroundColor(.gray)
+                            .padding(.top, 8)
+                    }
                 }
-                .padding(.bottom, 40)
-
-                VStack(spacing: 24) {
-                    LottieView(
-                        name: viewModel.selectedUserType.lottieFileName,
-                        loopMode: .loop,
-                        contentMode: .scaleAspectFit,
-                        speed: 1.0
-                    )
-                    .frame(height: 300)
-                    .id(viewModel.selectedUserType)
-                    
-                    Text(viewModel.selectedUserType.description)
-                        .font(.title3)
-                        .multilineTextAlignment(.center)
-                        .foregroundStyle(Color("Cor Descrição").opacity(0.7))
-                        .padding(.horizontal, 16)
-                        .fixedSize(horizontal: false, vertical: true)
-                }
+                .padding(.top, 40)
                 .padding(.bottom, 20)
-                .frame(maxHeight: .infinity)
-                .transition(.opacity)
-
-                ToggleSelector(selected: $viewModel.selectedUserType)
-                    .padding(.horizontal, 35)
-                    .padding(.bottom, 24)
                 
-                // Botão continuar
+                // MARK: - Animação Contextual
+                LottieView(
+                    name: viewModel.currentLottieFileName,
+                    loopMode: .loop
+                )
+                .frame(height: 220)
+                .id(viewModel.selectedUserType)
+                
+                // Descrição Dinâmica
+                Text(viewModel.currentDescription)
+                    .font(.subheadline)
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(.gray)
+                    .padding(.horizontal, 40)
+                    .frame(height: 50)
+                    .padding(.bottom, 30)
+                
+                Spacer()
+                
+                // MARK: - Seletor
+                ToggleSelector(selected: $viewModel.selectedUserType)
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 30)
+                
+                // Botão Continuar
                 Button(action: {
-                    viewModel.saveAndContinue()
-                    onComplete()
+                    navigateToInput = true
                 }) {
                     HStack {
                         Text("Continuar")
                             .font(.headline)
                         Image(systemName: "arrow.right")
                     }
-                    .foregroundColor(colorScheme == .dark ? Color("Cor Roxo") : Color.white)
+                    .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, 16)
-                    .background(colorScheme == .dark ? Color.white : Color("Cor Roxo"))
+                    .padding(.vertical, 18)
+                    .background(
+                        LinearGradient(colors: [Color("Cor Roxo"), Color("Cor Rosa")], startPoint: .leading, endPoint: .trailing)
+                    )
                     .cornerRadius(16)
+                    .shadow(color: Color("Cor Roxo").opacity(0.4), radius: 10, y: 5)
                 }
-                .padding(.horizontal, 32)
+                .padding(.horizontal, 24)
                 .padding(.bottom, 50)
             }
         }
-    }
-}
-
-#Preview {
-    UserTypeSelectionView {
-        print("Completou seleção")
+        .fullScreenCover(isPresented: $navigateToInput) {
+            DocumentInputView(userType: viewModel.selectedUserType)
+        }
     }
 }

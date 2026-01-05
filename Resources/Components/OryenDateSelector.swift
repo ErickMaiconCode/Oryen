@@ -1,44 +1,83 @@
 import SwiftUI
 
-struct OryenDatePicker: View {
+struct OryenDateSelector: View {
+    @Environment(\.colorScheme) var colorScheme
     let label: String
     @Binding var date: Date
-    let limit: Date // Data máxima permitida
+    let range: ClosedRange<Date>
+    
+    @State private var showDatePicker = false
+    
+    private var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .medium
+        formatter.locale = Locale(identifier: "pt_BR")
+        return formatter
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            // Hierarquia 3: Label
             Text(label)
                 .font(.caption.bold())
                 .foregroundColor(Color("Cor Roxo"))
                 .padding(.leading, 4)
             
-            // Hierarquia 4: Input Box
-            HStack {
-                // Configuração Crítica do DatePicker
+            Button(action: { showDatePicker = true }) {
+                HStack {
+                    Text(dateFormatter.string(from: date))
+                        .foregroundColor(Color("Cor Branca"))
+                        .font(.system(size: 16, weight: .medium))
+                    
+                    Spacer()
+                    
+                    Image(systemName: "calendar")
+                        .foregroundColor(Color("Cor Roxo"))
+                }
+                .padding()
+                .background(Color("Cor Fundo").opacity(0.5).brightness(0.1))
+                .cornerRadius(12)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(showDatePicker ? Color("Cor Roxo") : Color.gray.opacity(0.3), lineWidth: showDatePicker ? 2 : 1)
+                )
+            }
+        }
+        // O Modal (Sheet) que sobe
+        .sheet(isPresented: $showDatePicker) {
+            VStack {
+                HStack {
+                    Text("Selecione a Data")
+                        .font(.headline)
+                        .foregroundColor(Color("Cor Branca"))
+                    Spacer()
+                    Button("Pronto") {
+                        showDatePicker = false
+                    }
+                    .font(.headline)
+                    .foregroundColor(Color("Cor Branca"))
+                }
+                .padding()
+                
+                Divider()
+                
                 DatePicker(
                     "",
                     selection: $date,
-                    in: ...limit, // TRAVA VISUAL: Bloqueia datas futuras ao limite
+                    in: range,
                     displayedComponents: .date
                 )
+                .datePickerStyle(.wheel)
                 .labelsHidden()
-                .datePickerStyle(.compact)
-                .colorScheme(.dark) // Mantém texto branco/legível
-                
-                Spacer()
-                
-                Image(systemName: "calendar")
-                    .foregroundColor(Color("Cor Roxo"))
+                Text("Você precisa ter pelo menos 18 anos.")
+                    .font(.caption)
+                    .foregroundColor(.gray)
+                    .padding(.bottom, 20)
             }
-            .padding()
-            .background(Color("Cor Fundo").opacity(0.5).brightness(0.1))
-            .cornerRadius(12)
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(Color("Cor Roxo"), lineWidth: 2) // Sempre destaque
-            )
+            // Fundo do Modal
+            .background(Color("Cor Fundo").ignoresSafeArea())
+            .presentationDetents([.height(350)])
+            .presentationCornerRadius(24)
         }
-        
     }
 }
+

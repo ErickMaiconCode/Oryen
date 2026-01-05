@@ -12,6 +12,7 @@ struct RegistrationSuccessView: View {
     var body: some View {
         ZStack {
             (colorScheme == .dark ? Color("Cor Fundo") : Color.white)
+            .ignoresSafeArea()
             
             VStack {
                 Spacer()
@@ -39,7 +40,7 @@ struct RegistrationSuccessView: View {
                         .bold()
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.blue)
+                        .background(Color("Cor Roxo"))
                         .foregroundColor(.white)
                         .cornerRadius(12)
                 }

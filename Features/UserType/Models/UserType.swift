@@ -16,7 +16,7 @@ enum UserType: String, Codable{
     var description: String{
         switch self {
         case .client:
-            return "Registrar novas reclamações e acompanhar o status dos seus pedidos,"
+            return "Registrar novas reclamações e acompanhar o status dos seus pedidos."
         case .company:
             return "Gerenciar feedbacks, analisar métricas e responder aos seus clientes."
         }
