@@ -1,32 +1,27 @@
-//
-//  LottieView.swift
-//  Oryen
-//
-//  Created by You on 16/12/25.
-//
-
 import SwiftUI
 import Lottie
 
 struct LottieView: UIViewRepresentable {
     let name: String
-    var loopMode: LottieLoopMode = .loop
+    var loopMode: LottieLoopMode = .playOnce
     var contentMode: UIView.ContentMode = .scaleAspectFit
     var speed: CGFloat = 1.0
-
-    private let animationView = LottieAnimationView()
+    var playProgress: AnimationProgressTime? = nil
+    var autoPlay: Bool = true
+    var playDelay: TimeInterval = 0
 
     func makeUIView(context: Context) -> UIView {
         let container = UIView()
         container.backgroundColor = .clear
 
+        let animationView = LottieAnimationView()
         animationView.translatesAutoresizingMaskIntoConstraints = false
         animationView.contentMode = contentMode
         animationView.loopMode = loopMode
         animationView.animationSpeed = speed
+        animationView.animation = LottieAnimation.named(name)
 
         container.addSubview(animationView)
-
         NSLayoutConstraint.activate([
             animationView.leadingAnchor.constraint(equalTo: container.leadingAnchor),
             animationView.trailingAnchor.constraint(equalTo: container.trailingAnchor),
@@ -34,23 +29,40 @@ struct LottieView: UIViewRepresentable {
             animationView.bottomAnchor.constraint(equalTo: container.bottomAnchor)
         ])
 
-        // Carrega a animação pelo nome do arquivo no bundle principal
-        animationView.animation = LottieAnimation.named(name)
-        animationView.play()
+        // Armazena no context para reusar
+        context.coordinator.animationView = animationView
+
+        if autoPlay {
+            playAnimation(animationView: animationView)
+        }
 
         return container
     }
 
     func updateUIView(_ uiView: UIView, context: Context) {
-        // Atualiza propriedades se mudarem dinamicamente
-        animationView.contentMode = contentMode
+        // Atualiza apenas propriedades que mudaram
+        guard let animationView = context.coordinator.animationView else { return }
+        
         animationView.loopMode = loopMode
         animationView.animationSpeed = speed
+        animationView.contentMode = contentMode
+    }
 
-        // Se o nome da animação mudar em tempo de execução, recarrega e toca
-        if animationView.animation?.name != name {
-            animationView.animation = LottieAnimation.named(name)
-            animationView.play()
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
+
+    private func playAnimation(animationView: LottieAnimationView) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + playDelay) {
+            if let progress = playProgress {
+                animationView.play(fromProgress: 0, toProgress: progress, loopMode: loopMode)
+            } else {
+                animationView.play()
+            }
         }
+    }
+
+    class Coordinator {
+        var animationView: LottieAnimationView?
     }
 }
